@@ -1,0 +1,14 @@
+.header {
+    display: flex;
+}
+
+.search-sort{
+    display: flex;
+    justify-content:space-between;
+    
+}
+
+.search {
+    width: 100%;
+    justify-content: center;
+}
