@@ -116,7 +116,7 @@ function First() {
         </div>
 
         <div style={{ width: "80%" }}>
-          Right
+         
           <Outlet />
         </div>
       </div>
