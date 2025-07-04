@@ -1,0 +1,36 @@
+/* 
+.header-part {
+    display: flex;
+    justify-items: center;
+    gap: 10px;
+    align-items: center;
+}
+
+.search-box {
+    border: 1px solid #C7CAD5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    width: 100%;
+    padding: 0px 5px; 
+    background-color: white;
+    border-radius: 5px;
+}
+
+.search-bar {
+    border: none;
+    outline: none;
+    padding: 8px 12px;
+    color: #6B7280;
+}
+
+
+
+.table-detail {
+    padding: 10px 11px;
+    background-color: white;
+} */
+
+.transfer-table {
+    border-bottom: 1px solid #6B7280 ;
+}

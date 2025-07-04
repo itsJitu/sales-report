@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./StockeReport.css";
 import { IoFilterOutline } from "react-icons/io5";
 import { GiCardboardBox } from "react-icons/gi";
@@ -29,9 +29,89 @@ const dummyData = [
     location: "delhi",
     totalinventeryvalue: "9000",
   },
+  {
+    id: 4,
+    productName: "Lenovo",
+    quantity: "2",
+    category: "pc",
+    location: "patna",
+    totalinventeryvalue: "48966",
+  },
+  {
+    id: 5,
+    productName: "fan",
+    quantity: "100",
+    category: "electric",
+    location: "himalaya",
+    totalinventeryvalue: "500",
+  },
+  {
+    id: 6,
+    productName: "camera",
+    quantity: "1",
+    category: "security",
+    location: "delhi",
+    totalinventeryvalue: "9000",
+  },
+  {
+    id: 7,
+    productName: "camera",
+    quantity: "1",
+    category: "security",
+    location: "delhi",
+    totalinventeryvalue: "9000",
+  },
+  {
+    id: 8,
+    productName: "Lenovo",
+    quantity: "2",
+    category: "pc",
+    location: "patna",
+    totalinventeryvalue: "48966",
+  },
+  {
+    id: 9,
+    productName: "fan",
+    quantity: "100",
+    category: "electric",
+    location: "himalaya",
+    totalinventeryvalue: "500",
+  },
+  {
+    id: 10,
+    productName: "camera",
+    quantity: "1",
+    category: "security",
+    location: "delhi",
+    totalinventeryvalue: "9000",
+  },
+  {
+    id: 11,
+    productName: "camera",
+    quantity: "1",
+    category: "security",
+    location: "delhi",
+    totalinventeryvalue: "9000",
+  },
 ];
 
 function StockReport() {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 3;
+
+  const totalPages = Math.ceil(dummyData.length / itemsPerPage);
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentData = dummyData.slice(startIndex, startIndex + itemsPerPage);
+
+  const handlePrevious = () => {
+    if (currentPage > 1) setCurrentPage((prev) => prev - 1);
+  };
+
+  const handleNext = () => {
+    if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
+  };
+
   return (
     <>
       <div className="container">
@@ -133,7 +213,7 @@ function StockReport() {
         {/* Table Container */}
 
         <div>
-          <div style={{color: "#000000"}}>
+          <div style={{ color: "#000000" }}>
             <p>Current Stocks</p>
           </div>
 
@@ -160,7 +240,7 @@ function StockReport() {
               </thead>
 
               <tbody>
-                {dummyData.map((item) => (
+                {currentData.map((item) => (
                   <tr className="content" key={item.id}>
                     <td className="table-details">
                       <div className="checkbox">
@@ -168,10 +248,13 @@ function StockReport() {
                           <input type="checkbox" />
                         </div>
                         <div>
-                          <span style={{color:"#007AFF"}}>{item.productName}</span> <br /> <span style={{color:"#6B7280"}}>(SKU)</span>
+                          <span style={{ color: "#007AFF" }}>
+                            {item.productName}
+                          </span>
+                          <br /> <span style={{ color: "#6B7280" }}>(SKU)</span>
                         </div>
                       </div>
-                    </td>
+                    </td>    
                     <td className="table-details">{item.quantity} Units</td>
                     <td className="table-details">{item.category}</td>
                     <td className="table-details">{item.location}</td>
@@ -186,30 +269,94 @@ function StockReport() {
 
           {/* pagination */}
 
-          <div style={{display:"flex", justifyContent:"space-between", background:"white", padding: "15px 25px"}}>
-          <div className="foot">
-            <span style={{color:"#6B7280", marginTop: "10px"}}>Result Per Page</span>
-            <div className="page">
-            <select className="page-border">
-              <option>10</option>
-            </select>
-            </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              background: "white",
+              padding: "15px 25px",
+            }}
+          >
+            {/* Left Side: Per Page Selector */}
+            <div
+              className="foot"
+              style={{ display: "flex", gap: "10px", alignItems: "center" }}
+            >
+              <span style={{ color: "#6B7280" }}>Result Per Page</span>
+              <select
+                className="page-border"
+                value={itemsPerPage}
+                onChange={(e) => {
+                  setItemsPerPage(Number(e.target.value));
+                  setCurrentPage(1); // Reset to first page when changing limit
+                }}
+              >
+                <option value={3} className="pageNo">3</option>
+              </select>
             </div>
 
-            {/* next & previous button */}
-
+            {/* Right Side: Pagination Buttons */}
             <div className="footer-button">
-              <button class="button" style={{borderTopLeftRadius:"8px", borderBottomLeftRadius:"8px"}}>Previous</button>              
-              <button class="button">01</button>
-              <button class="button">02</button>
-              <button class="button" style={{borderTopRightRadius:"8px", borderBottomRightRadius:"8px"}}>Next</button>
+              {/* Previous Button */}
+              <button
+                className="button"
+                onClick={handlePrevious}
+                disabled={currentPage === 1}
+                style={{
+                  borderTopLeftRadius: "8px",
+                  borderBottomLeftRadius: "8px",
+                }}
+              >
+                Previous
+              </button>
+
+              {/* Page - 1 */}
+              {currentPage > 1 && (
+                <button
+                  className="button"
+                  onClick={() => setCurrentPage(currentPage - 1)}
+                >
+                  {String(currentPage - 1).padStart(2, "0")}
+                </button>
+              )}
+
+              {/* Current Page */}
+              <button
+                className="button"
+                disabled
+                style={{
+                  backgroundColor: "#007AFF",
+                  color: "white",
+                }}
+              >
+                {String(currentPage).padStart(2, "0")}
+              </button>
+
+              {/* Page + 1 */}
+              {currentPage < totalPages && (
+                <button
+                  className="button"
+                  onClick={() => setCurrentPage(currentPage + 1)}
+                >
+                  {String(currentPage + 1).padStart(2, "0")}
+                </button>
+              )}
+
+              {/* Next Button */}
+              <button
+                className="button"
+                onClick={handleNext}
+                disabled={currentPage === totalPages}
+                style={{
+                  borderTopRightRadius: "8px",
+                  borderBottomRightRadius: "8px",
+                }}
+              >
+                Next
+              </button>
             </div>
-
           </div>
-
         </div>
-
-
       </div>
     </>
   );

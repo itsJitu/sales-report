@@ -11,7 +11,7 @@
 }
 
 .search {
-    border: 1px solid gray;
+    border: 1px solid #C7CAD5;
     display: flex;
     justify-content: space-between;
     align-items: center; 
@@ -30,7 +30,7 @@
 
 
 .select {
-     border: 1px solid gray;
+     border: 1px solid #C7CAD5;
      padding: 6px 12px;
      background-color: white;
      border-radius: 5px;
@@ -182,10 +182,12 @@ thead th {
 .page-border {
     /* border: none;
     outline: none; */
-    width: 35px;
-    height: 35px;
-    border-radius: 8px;
+    width: 35%;
+    height: 25px;
+    border-radius: 5px;
 }
+
+
 /* 
 .footer-button {
     border: 1px solid #6B7280;
