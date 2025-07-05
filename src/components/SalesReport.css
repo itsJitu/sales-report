@@ -1,0 +1,29 @@
+/* .selling-product {
+    gap: 50px;
+    background-color:red;
+} */
+
+.table-container {
+  width: 90%;
+  margin-top: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+th, td {
+  padding: 10px 0px;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+td input[type="checkbox"] {
+  transform: scale(1.1);
+}
+
+

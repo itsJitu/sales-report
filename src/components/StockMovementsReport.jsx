@@ -234,31 +234,21 @@ function StockMovementsReport() {
           <table>
             <thead>
               <tr className="table-stock">
-                <th
-                  style={{
-                    textAlign: "left",
-                    borderTopLeftRadius: "5px",
-                  }}
-                >
-                  Date
-                </th>
+                <th className="checkbox-header"></th> {/* visually blank */}
+                <th>Date</th>
                 <th style={{ width: "50%" }}>Product Name & SKU</th>
                 <th>From</th>
-                <th>T0</th>
+                <th>To</th>
                 <th>Quantity(Unit)</th>
-                <th style={{ borderTopRightRadius: "5px" }}>Transfer Value</th>
+                <th>Transfer Value</th>
               </tr>
             </thead>
 
             <tbody>
               {currentData.map((item) => (
-                <tr className="table-transfer">
-                  <td>
-                    <div className="checkbox">
-                      <div>
-                        <input type="checkbox" />
-                      </div>
-                    </div>
+                <tr className="table-transfer" key={item.id}>
+                  <td className="checkbox-cell">
+                    <input type="checkbox" />
                   </td>
                   <td>{item.Date}</td>
                   <td>{item.productName}</td>

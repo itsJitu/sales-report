@@ -34,3 +34,28 @@
 .transfer-table {
     border-bottom: 1px solid #6B7280 ;
 }
+
+.checkbox-header,
+.checkbox-cell {
+  width: 40px; /* Adjust as needed */
+  text-align: center;
+}
+
+.table-div table {
+  width: 100%;
+  border-collapse: collapse;
+   padding: 0 16px
+}
+
+.table-stock th,
+.table-transfer td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  vertical-align: middle;
+}
+
+.table-stock th {
+  background-color: #007AFF;
+  color: white;
+}
