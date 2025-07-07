@@ -1,5 +1,4 @@
-import React from "react";
-import "./purchaseReport.css";
+import React, { useState, useEffect } from "react";
 import { IoFilterOutline } from "react-icons/io5";
 import { GiCardboardBox } from "react-icons/gi";
 import { FaArrowRight } from "react-icons/fa6";
@@ -41,14 +40,58 @@ const allPurchaseOrder = [
     totalAmount: 2292,
     Status: "Processing"
   },
+  {
+    id: 5,
+    invoiceid: "AS-09001",
+    productName: "lappy",
+    placedBy: "Aman Kumar",
+    orderDate: "Today",
+    totalAmount: 2292,
+    Status: "Others"
+  },
+];
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "Completed":
+        return "completed";
+      case "Pending":
+        return "pending";
+      case "Rejected":
+        return "rejected";
+      case "Processing":
+        return "processing";
+      case "Others":
+        return "others"
+      default:
+        return "";
+    }
+  };
+
   
-]
 
 function PurchaseReport() {
+   const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 3;
+
+  const totalPages = Math.ceil(allPurchaseOrder.length / itemsPerPage);
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentData = allPurchaseOrder.slice(startIndex, startIndex + itemsPerPage);
+
+  const handlePrevious = () => {
+    if (currentPage > 1) setCurrentPage((prev) => prev - 1);
+  };
+  
+
+  const handleNext = () => {
+    if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
+  };
   return (
     <>
       <div className="container">
         <div className="header">
+          
           {/* search-bar */}
           <div className="search">
             <input
@@ -184,7 +227,7 @@ function PurchaseReport() {
             </thead>
 
             <tbody>
-              {allPurchaseOrder.map((order) => {
+              {currentData.map((order) => {
                 return (
                 <tr key={order.id}>
                   <td style={{ borderBottom: "1px solid #ccc", padding: "8px" }}>
@@ -200,10 +243,10 @@ function PurchaseReport() {
               {order.orderDate}
             </td>
             <td style={{ borderBottom: "1px solid #ccc",  }}>
-              {order.totalAmount}
+              ${order.totalAmount}/-
             </td>
-            <td style={{ borderBottom: "1px solid #ccc",  }}>
-              {order.Status}
+            <td style={{ borderBottom: "1px solid #ccc"  }} >
+             <span className={`status-badge ${getStatusColor(order.Status)}`}> {order.Status}</span>
             </td>
                 </tr>
                 );
@@ -212,10 +255,99 @@ function PurchaseReport() {
             </tbody>
           </table>
 
+            <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              background: "white",
+              padding: "15px 25px",
+            }}
+          >
+            {/* Left Side: Per Page Selector */}
+            <div
+              className="foot"
+              style={{ display: "flex", gap: "10px", alignItems: "center" }}
+            >
+              <span style={{ color: "#6B7280" }}>Result Per Page</span>
+              <select
+                className="page-border"
+                value={itemsPerPage}
+                onChange={(e) => {
+                  setItemsPerPage(Number(e.target.value));
+                  setCurrentPage(1); // Reset to first page when changing limit
+                }}
+              >
+                <option value={3} className="pageNo">3</option>
+              </select>
+            </div>
+
+            {/* Right Side: Pagination Buttons */}
+            <div className="footer-button">
+              {/* Previous Button */}
+              <button
+                className="button"
+                onClick={handlePrevious}
+                disabled={currentPage === 1}
+                style={{
+                  borderTopLeftRadius: "8px",
+                  borderBottomLeftRadius: "8px",
+                }}
+              >
+                Previous
+              </button>
+
+              {/* Page - 1 */}
+              {currentPage > 1 && (
+                <button
+                  className="button"
+                  onClick={() => setCurrentPage(currentPage - 1)}
+                >
+                  {String(currentPage - 1).padStart(2, "0")}
+                </button>
+              )}
+
+              {/* Current Page */}
+              <button
+                className="button"
+                disabled
+                style={{
+                  backgroundColor: "#007AFF",
+                  color: "white",
+                }}
+              >
+                {String(currentPage).padStart(2, "0")}
+              </button>
+
+              {/* Page + 1 */}
+              {currentPage < totalPages && (
+                <button
+                  className="button"
+                  onClick={() => setCurrentPage(currentPage + 1)}
+                >
+                  {String(currentPage + 1).padStart(2, "0")}
+                </button>
+              )}
+
+              {/* Next Button */}
+              <button
+                className="button"
+                onClick={handleNext}
+                disabled={currentPage === totalPages}
+                style={{
+                  borderTopRightRadius: "8px",
+                  borderBottomRightRadius: "8px",
+                }}
+              >
+                Next
+              </button>
+            </div>
+          </div>
+
         </div>
       </div>
     </>
   );
 }
+
 
 export default PurchaseReport;

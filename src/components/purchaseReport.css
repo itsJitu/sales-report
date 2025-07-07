@@ -1,1 +1,39 @@
+.pending {
+  color: #F59E0B;
+  font-weight: bold;
+  background-color: #fdcb73;
+  border-radius: 6px;
+  padding: 2px 5px;
+}
 
+.completed {
+  color: #10B981;
+  font-weight: bold;
+  border-radius: 6px;
+  background-color: #7affd3;
+  padding: 2px 5px;
+}
+
+.rejected {
+  color: #EF4444;
+  font-weight: bold;
+  border-radius: 6px;
+  background-color: #f6aaaa;
+  padding: 2px 5px;
+}
+
+.processing {
+  color: #007AFF;
+  font-weight: bold;
+  border-radius: 6px;
+  background-color: #88c2ff;
+  padding: 2px 5px;
+}
+
+.others {
+  color: #8B5CF6;
+  font-weight: bold;
+  border-radius: 6px;
+  background-color: #ceb9ff;
+  padding: 2px 5px;
+}
