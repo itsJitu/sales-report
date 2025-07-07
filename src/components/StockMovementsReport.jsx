@@ -234,7 +234,6 @@ function StockMovementsReport() {
           <table>
             <thead>
               <tr className="table-stock">
-                <th className="checkbox-header"></th> {/* visually blank */}
                 <th>Date</th>
                 <th style={{ width: "50%" }}>Product Name & SKU</th>
                 <th>From</th>
@@ -249,8 +248,7 @@ function StockMovementsReport() {
                 <tr className="table-transfer" key={item.id}>
                   <td className="checkbox-cell">
                     <input type="checkbox" />
-                  </td>
-                  <td>{item.Date}</td>
+                  {item.Date}</td>
                   <td>{item.productName}</td>
                   <td>{item.From}</td>
                   <td>{item.To}</td>
