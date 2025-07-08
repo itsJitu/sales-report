@@ -4,8 +4,10 @@ import { IoFilterOutline } from "react-icons/io5";
 import { GiCardboardBox } from "react-icons/gi";
 import { FaArrowRight } from "react-icons/fa6";
 import { GrDocumentPdf } from "react-icons/gr";
+import { GrDocumentCsv } from "react-icons/gr";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+
 
 
 const dummyData = [
@@ -115,6 +117,40 @@ function StockReport() {
   const handleNext = () => {
     if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
   };
+
+
+  const handleDownloadCSV = () => {
+  const tableHeader = [
+    "Product Name",
+    "Quantity",
+    "Category",
+    "Location",
+    "Total Value",
+  ];
+
+  const csvRows = [
+    tableHeader.join(","), // CSV header
+    ...dummyData.map((item) =>
+      [
+        item.productName,
+        item.quantity,
+        item.category,
+        item.location,
+        `$${item.totalinventeryvalue}/-`,
+      ].join(",")
+    ),
+  ];
+
+  const csvContent = "data:text/csv;charset=utf-8," + csvRows.join("\n");
+
+  const encodedUri = encodeURI(csvContent);
+  const link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", "stock-report.csv");
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
 
 
 
@@ -264,6 +300,13 @@ const handleDownloadPDF = () => {
             <button onClick={handleDownloadPDF} style={{ background: "none", border: "none", cursor: "pointer" }}>
   <GrDocumentPdf style={{ fontSize: "20px", color: "red"}} />
 </button>
+<button
+  onClick={handleDownloadCSV}
+  style={{ background: "none", border: "none", cursor: "pointer", marginLeft: "10px" }}
+>
+  <GrDocumentCsv style={{ fontSize: "20px", color: "green" }} />
+</button>
+
 
           </div>
 
