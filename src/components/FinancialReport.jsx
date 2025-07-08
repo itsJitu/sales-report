@@ -84,11 +84,11 @@ function FinancialReport() {
     datasets: [
       {
         label: "Profit Margin",
-        data: [23, 25, 22, 39, 37, 46, 41], // example data
+        data: [23, 25, 22, 39, 37, 46, 41],
         borderColor: "#007AFF",
         backgroundColor: "rgba(0, 122, 255, 0.1)",
         fill: true,
-        tension: 0.4, // smooth line
+        tension: 0.4,
         pointRadius: 0,
       },
     ],
@@ -96,6 +96,13 @@ function FinancialReport() {
 
   const splineOptions = {
     responsive: true,
+    maintainAspectRatio: false,
+    layout: {
+      padding: {
+        bottom: 30,
+        top: 10,
+      },
+    },
     plugins: {
       legend: {
         display: false,
@@ -103,24 +110,73 @@ function FinancialReport() {
     },
     scales: {
       y: {
-        min: 10,
+        min: 0,
         max: 50,
-        ticks: {
-        stepSize: 10, 
-        callback: (value) => value + "%",
-        padding: 2,
-      },
         grid: {
           display: true,
-        }
+          drawTicks: false,
+          color: "rgba(0, 0, 0, 0.1)",
+        },
+        ticks: {
+          stepSize: 10,
+          callback: (value) => value + "%",
+          padding: 8,
+        },
+        title: {
+          display: true,
+          text: "Profit Margin",
+          position: "left",
+          textDecoration: "underline",
+          font: {
+            size: 12, // Adjust font size to match screenshot
+            weight: "normal", // Ensure consistent weight
+          },
+        },
       },
       x: {
         grid: {
           display: false,
-          drawBorder: false,
+          drawBorder: true,
           drawTicks: false,
-        }
-      }
+        },
+        border: {
+          display: true,
+        },
+        ticks: {
+          padding: 10,
+          autoSkip: false,
+          maxRotation: 0,
+          minRotation: 0,
+        },
+        title: {
+          display: true,
+          text: "Days",
+          position: "bottom",
+          textDecoration: "underline",
+          font: {
+            size: 12, // Match Y-axis font size
+            weight: "normal",
+          },
+        },
+      },
+    },
+    tooltips: {
+      enabled: true,
+      mode: "nearest",
+      callbacks: {
+        label: function (tooltipItem, data) {
+          let label = data.datasets[tooltipItem.datasetIndex].label || "";
+          if (label) {
+            label = `<u>${label}</u>`;
+          }
+          return label;
+        },
+      },
+      custom: function (tooltip) {
+        if (!tooltip) return;
+        tooltip.displayColors = false;
+        return tooltip;
+      },
     },
   };
 
@@ -140,14 +196,14 @@ function FinancialReport() {
         data: categories.map((item) => item.percent),
         backgroundColor: categories.map((item) => item.color),
         borderWidth: 4,
-        borderColor: " #ffffff",
+        borderColor: "#ffffff",
       },
     ],
   };
+
   return (
     <div className="container">
       <div className="header">
-        {/* search-bar */}
         <div className="search">
           <input
             type="Search"
@@ -159,7 +215,6 @@ function FinancialReport() {
       </div>
 
       <div className="box-container">
-        {/* box-1 */}
         <div className="stock-card">
           <div className="stock-content">
             <div className="icon">
@@ -192,7 +247,6 @@ function FinancialReport() {
           </div>
         </div>
 
-        {/* box-2 */}
         <div className="stock-card">
           <div className="stock-content">
             <div className="icon">
@@ -224,7 +278,6 @@ function FinancialReport() {
           </div>
         </div>
 
-        {/* Box-3 */}
         <div className="stock-card">
           <div className="stock-content">
             <div className="icon">
@@ -256,7 +309,6 @@ function FinancialReport() {
           </div>
         </div>
 
-        {/* Box-4*/}
         <div className="stock-card">
           <div className="stock-content">
             <div className="icon">
@@ -294,7 +346,6 @@ function FinancialReport() {
         </div>
       </div>
 
-      {/* Inventory Value by Category Section */}
       <div style={{ display: "flex", width: "100%", gap: "15px" }}>
         <div style={{ width: "70%" }}>
           <div>
@@ -302,7 +353,6 @@ function FinancialReport() {
               <span>Inventory Value by category</span>
             </div>
 
-            {/* circle-graph*/}
             <div>
               <div style={{ display: "flex" }}>
                 <div className="circle-graph" style={{ width: "100%" }}>
@@ -382,7 +432,6 @@ function FinancialReport() {
             </div>
 
             <div>
-
               <div
                 style={{
                   background: "#fff",
@@ -390,12 +439,12 @@ function FinancialReport() {
                   marginTop: "20px",
                   borderRadius: "10px",
                   boxShadow: "0 1px 5px rgba(0, 0, 0, 0.1)",
+                  height: "300px",
                 }}
               >
                 <h3 style={{ marginBottom: "10px" }}>Profit Margin</h3>
                 <Line data={splineData} options={splineOptions} />
               </div>
-              
             </div>
           </div>
         </div>
@@ -404,7 +453,6 @@ function FinancialReport() {
           <div style={{ padding: "5px" }}>
             <span className="valuation"> Inventory Valuation </span>
 
-            {/* Table */}
             <div
               className="table-value"
               style={{ borderRadius: "8px", overflow: "hidden" }}
