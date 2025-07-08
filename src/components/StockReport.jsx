@@ -3,6 +3,10 @@ import "./StockeReport.css";
 import { IoFilterOutline } from "react-icons/io5";
 import { GiCardboardBox } from "react-icons/gi";
 import { FaArrowRight } from "react-icons/fa6";
+import { GrDocumentPdf } from "react-icons/gr";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+
 
 const dummyData = [
   {
@@ -112,6 +116,48 @@ function StockReport() {
     if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
   };
 
+
+
+const handleDownloadPDF = () => {
+  const doc = new jsPDF();
+
+  // Add title
+  doc.text("Stock Report", 14, 15);
+
+  // Define columns
+  const tableColumn = ["Product Name", "Quantity", "Category", "Location", "Total Value"];
+
+  // Define rows
+  const tableRows = dummyData.map((item) => [
+    item.productName,
+    item.quantity,
+    item.category,
+    item.location,
+    `$${item.totalinventeryvalue}/-`,
+  ]);
+
+  // ✅ Correct usage of autoTable (pass doc as first argument)
+  autoTable(doc, {
+    head: [tableColumn],
+    body: tableRows,
+    startY: 20,
+    styles: { fontSize: 10 },
+    headStyles: {
+      fillColor: [0, 122, 255],
+      textColor: "#ffffff"
+    },
+    theme: "striped"
+  });
+
+  // Save file
+  doc.save("stock-report.pdf");
+};
+
+  // Save the PDF
+  
+// };
+
+
   return (
     <>
       <div className="container">
@@ -213,8 +259,12 @@ function StockReport() {
         {/* Table Container */}
 
         <div>
-          <div style={{ color: "#000000" }}>
-            <p>Current Stocks</p>
+          <div style={{ color: "#000000", display:'flex', justifyContent:'space-between', alignItems: "center"}}>
+            <p>Current Stocks</p> 
+            <button onClick={handleDownloadPDF} style={{ background: "none", border: "none", cursor: "pointer" }}>
+  <GrDocumentPdf style={{ fontSize: "20px", color: "red"}} />
+</button>
+
           </div>
 
           <div className="table-div">

@@ -1,13 +1,18 @@
 .inventry {
-    background-color: white;
-    padding: 10px 10px;
-    margin-top: 10px;
-    border-top-right-radius:10px;
-    border-top-left-radius:10px ;
-    color: #0e122c;
+  background-color: white;
+  padding: 10px 10px;
+  margin-top: 10px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  color: #0e122c;
 }
 
 .circle-graph {
-    margin-top: 1px;
-    background-color: white;
+  margin-top: 1px;
+  width: 600px;
+  background-color: white;
+}
+
+.table-value {
+  border-radius: 8px;
 }
