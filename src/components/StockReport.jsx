@@ -8,8 +8,6 @@ import { GrDocumentCsv } from "react-icons/gr";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
-
-
 const dummyData = [
   {
     id: 1,
@@ -118,81 +116,83 @@ function StockReport() {
     if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
   };
 
-
   const handleDownloadCSV = () => {
-  const tableHeader = [
-    "Product Name",
-    "Quantity",
-    "Category",
-    "Location",
-    "Total Value",
-  ];
+    const tableHeader = [
+      "Product Name",
+      "Quantity",
+      "Category",
+      "Location",
+      "Total Value",
+    ];
 
-  const csvRows = [
-    tableHeader.join(","), // CSV header
-    ...dummyData.map((item) =>
-      [
-        item.productName,
-        item.quantity,
-        item.category,
-        item.location,
-        `$${item.totalinventeryvalue}/-`,
-      ].join(",")
-    ),
-  ];
+    const csvRows = [
+      tableHeader.join(","), // CSV header
+      ...dummyData.map((item) =>
+        [
+          item.productName,
+          item.quantity,
+          item.category,
+          item.location,
+          `$${item.totalinventeryvalue}/-`,
+        ].join(",")
+      ),
+    ];
 
-  const csvContent = "data:text/csv;charset=utf-8," + csvRows.join("\n");
+    const csvContent = "data:text/csv;charset=utf-8," + csvRows.join("\n");
 
-  const encodedUri = encodeURI(csvContent);
-  const link = document.createElement("a");
-  link.setAttribute("href", encodedUri);
-  link.setAttribute("download", "stock-report.csv");
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-};
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "stock-report.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
+  const handleDownloadPDF = () => {
+    const doc = new jsPDF();
 
+    // Add title
+    doc.text("Stock Report", 14, 15);
 
-const handleDownloadPDF = () => {
-  const doc = new jsPDF();
+    // Define columns
+    const tableColumn = [
+      "Product Name",
+      "Quantity",
+      "Category",
+      "Location",
+      "Total Value",
+    ];
 
-  // Add title
-  doc.text("Stock Report", 14, 15);
+    // Define rows
+    const tableRows = dummyData.map((item) => [
+      item.productName,
+      item.quantity,
+      item.category,
+      item.location,
+      `$${item.totalinventeryvalue}/-`,
+    ]);
 
-  // Define columns
-  const tableColumn = ["Product Name", "Quantity", "Category", "Location", "Total Value"];
+    // ✅ Correct usage of autoTable (pass doc as first argument)
+    autoTable(doc, {
+      head: [tableColumn],
+      body: tableRows,
+      startY: 20,
+      styles: { fontSize: 10 },
+      headStyles: {
+        fillColor: [0, 122, 255],
+        textColor: "#ffffff",
+      },
+      theme: "striped",
+    });
 
-  // Define rows
-  const tableRows = dummyData.map((item) => [
-    item.productName,
-    item.quantity,
-    item.category,
-    item.location,
-    `$${item.totalinventeryvalue}/-`,
-  ]);
-
-  // ✅ Correct usage of autoTable (pass doc as first argument)
-  autoTable(doc, {
-    head: [tableColumn],
-    body: tableRows,
-    startY: 20,
-    styles: { fontSize: 10 },
-    headStyles: {
-      fillColor: [0, 122, 255],
-      textColor: "#ffffff"
-    },
-    theme: "striped"
-  });
-
-  // Save file
-  doc.save("stock-report.pdf");
-};
+    // Save file
+    doc.save("stock-report.pdf");
+  };
 
   // Save the PDF
-  
-// };
 
+  // };
 
   return (
     <>
@@ -295,19 +295,31 @@ const handleDownloadPDF = () => {
         {/* Table Container */}
 
         <div>
-          <div style={{ color: "#000000", display:'flex', justifyContent:'space-between', alignItems: "center"}}>
-            <p>Current Stocks</p> 
-            <button onClick={handleDownloadPDF} style={{ background: "none", border: "none", cursor: "pointer" }}>
-  <GrDocumentPdf style={{ fontSize: "20px", color: "red"}} />
-</button>
-<button
-  onClick={handleDownloadCSV}
-  style={{ background: "none", border: "none", cursor: "pointer", marginLeft: "10px" }}
->
-  <GrDocumentCsv style={{ fontSize: "20px", color: "green" }} />
-</button>
-
-
+          <div
+            style={{
+              color: "#000000",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <p>Current Stocks</p>
+           <div> <button
+              onClick={handleDownloadPDF}
+              style={{ background: "none", border: "none", cursor: "pointer" }}
+            >
+              <GrDocumentPdf style={{ fontSize: "20px", color: "red" }} />
+            </button>
+            <button
+              onClick={handleDownloadCSV}
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",                
+              }}
+            >
+              <GrDocumentCsv style={{ fontSize: "20px", color: "green" }} />
+            </button></div>
           </div>
 
           <div className="table-div">
@@ -347,7 +359,7 @@ const handleDownloadPDF = () => {
                           <br /> <span style={{ color: "#6B7280" }}>(SKU)</span>
                         </div>
                       </div>
-                    </td>    
+                    </td>
                     <td className="table-details">{item.quantity} Units</td>
                     <td className="table-details">{item.category}</td>
                     <td className="table-details">{item.location}</td>
@@ -384,7 +396,9 @@ const handleDownloadPDF = () => {
                   setCurrentPage(1); // Reset to first page when changing limit
                 }}
               >
-                <option value={3} className="pageNo">3</option>
+                <option value={3} className="pageNo">
+                  3
+                </option>
               </select>
             </div>
 
